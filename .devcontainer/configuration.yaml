@@ -1,0 +1,12 @@
+default_config:
+
+debugpy:
+  start: false
+
+http:
+  server_port: 9123
+
+logger:
+  default: warning
+  logs:
+    custom_components.iqua_softener: debug
