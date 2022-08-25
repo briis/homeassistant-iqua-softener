@@ -1,5 +1,8 @@
 {
   "config": {
+    "error": {
+      "connection_error": "There was an error connecting to the IQua Server. Please check your input and try again."
+    },
     "step": {
       "user": {
         "data": {
@@ -8,7 +11,19 @@
           "device_sn": "Serial Number"
         },
         "description": "Enter your iQua credentials and device serial number.",
-        "title": "Setup"
+        "title": "Setup an IQua Device"
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "username": "Username",
+          "password": "Password",
+          "device_sn": "Serial Number",
+          "update_interval": "Interval in seconds between sensor updates (Default 5 sec)"
+        }
       }
     }
   }

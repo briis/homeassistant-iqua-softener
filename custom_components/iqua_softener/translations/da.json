@@ -1,0 +1,30 @@
+{
+    "config": {
+        "error": {
+            "connection_error": "Der opstod en fejl under oprettelse af forbindelse til IQua Serveren. Kontrollér indtastninger og prøv igen."
+        },
+        "step": {
+            "user": {
+                "data": {
+                    "username": "Brugernavn",
+                    "password": "Kodeord",
+                    "device_sn": "Serienummer"
+                },
+                "description": "Indtast dine iQua oplysninger og enhedens serienummer.",
+                "title": "Konfigurér en IQua Enhed"
+            }
+        }
+    },
+    "options": {
+        "step": {
+            "init": {
+                "data": {
+                    "username": "Brugernavn",
+                    "password": "Kodeord",
+                    "device_sn": "Serienummer",
+                    "update_interval": "Interval i sekunder mellem seonsor opdateringer (Standard 5 sek)"
+                }
+            }
+        }
+    }
+}
