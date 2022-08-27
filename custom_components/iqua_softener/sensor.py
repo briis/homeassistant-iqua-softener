@@ -16,12 +16,13 @@ from homeassistant.const import PERCENTAGE, VOLUME_LITERS, VOLUME_GALLONS
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.typing import StateType
 
-from iqua_softener import IquaSoftenerVolumeUnit
+# from iqua_softener import IquaSoftenerVolumeUnit
 
 from .const import (
     DOMAIN,
     VOLUME_FLOW_RATE_LITERS_PER_MINUTE,
     VOLUME_FLOW_RATE_GALLONS_PER_MINUTE,
+    IquaSoftenerVolumeUnit,
 )
 from .entity import IQuaEntity
 from .models import IQuaEntryData
