@@ -127,6 +127,13 @@ class IQuaSensor(IQuaEntity, SensorEntity):
                 datetime.now(self.device_data.device_date_time.tzinfo)
                 - timedelta(days=self.device_data.days_since_last_regeneration)
             ).replace(hour=0, minute=0, second=0)
+
+        if self.entity_description.key == "out_of_salt_estimated_days":
+            return (
+                datetime.now(self.device_data.device_date_time.tzinfo)
+                + timedelta(days=self.device_data.out_of_salt_estimated_days)
+            ).replace(hour=0, minute=0, second=0)
+
         return (
             getattr(self.coordinator.data, self.entity_description.key)
             if self.coordinator.data

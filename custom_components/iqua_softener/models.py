@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any
 
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 from iqua_softener import (
