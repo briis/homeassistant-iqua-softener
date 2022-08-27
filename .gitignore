@@ -14,3 +14,4 @@ homeassistant-iqua-softener.code-workspace
 custom_components/iqua_softener/__init__ORG.py
 custom_components/iqua_softener/config_flow_ORG.py
 custom_components/iqua_softener/sensor_ORG.py
+.DS_Store
