@@ -1,16 +1,18 @@
 """Weatherbit Sensors for Home Assistant."""
 from __future__ import annotations
+from datetime import datetime, timedelta
 
 import logging
 from dataclasses import dataclass
 
 from homeassistant.components.sensor import (
-    STATE_CLASS_MEASUREMENT,
-    STATE_CLASS_TOTAL,
+    SensorDeviceClass,
     SensorEntity,
     SensorEntityDescription,
+    SensorStateClass,
 )
 from homeassistant.config_entries import ConfigEntry
+from homeassistant.const import PERCENTAGE, VOLUME_LITERS, VOLUME_GALLONS
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.typing import StateType
 
@@ -40,13 +42,24 @@ SENSOR_TYPES = IQuaSensorEntityDescription = (
         key="state",
         name="Online",
         icon="mdi:wifi",
-        state_class=STATE_CLASS_MEASUREMENT,
+        state_class=SensorStateClass.MEASUREMENT,
+    ),
+    IQuaSensorEntityDescription(
+        key="days_since_last_regeneration",
+        name="Last regeneration",
+        device_class=SensorDeviceClass.TIMESTAMP,
+    ),
+    IQuaSensorEntityDescription(
+        key="out_of_salt_estimated_days",
+        name="Out of salt estimated day",
+        device_class=SensorDeviceClass.TIMESTAMP,
     ),
     IQuaSensorEntityDescription(
         key="today_use",
         name="Today water usage",
-        state_class=STATE_CLASS_TOTAL,
+        state_class=SensorStateClass.TOTAL,
         icon="mdi:water-minus",
+        native_unit_of_measurement=VOLUME_LITERS,
     ),
 )
 
@@ -106,7 +119,14 @@ class IQuaSensor(IQuaEntity, SensorEntity):
     @property
     def native_value(self) -> StateType:
         """Return the state of the sensor."""
+        if self.entity_description.key == "state":
+            return str(self.device_data.state.value)
 
+        if self.entity_description.key == "days_since_last_regeneration":
+            return (
+                datetime.now(self.device_data.device_date_time.tzinfo)
+                - timedelta(days=self.device_data.days_since_last_regeneration)
+            ).replace(hour=0, minute=0, second=0)
         return (
             getattr(self.coordinator.data, self.entity_description.key)
             if self.coordinator.data
@@ -116,7 +136,19 @@ class IQuaSensor(IQuaEntity, SensorEntity):
     @property
     def icon(self):
         """Return icon for the sensor."""
+
         return self.entity_description.icon
+
+    @property
+    def native_unit_of_measurement(self) -> str | None:
+        if self.entity_description.key == "today_use":
+            return (
+                VOLUME_LITERS
+                if self.device_data.volume_unit == IquaSoftenerVolumeUnit.LITERS
+                else VOLUME_GALLONS
+            )
+
+        return super().native_unit_of_measurement
 
     @property
     def extra_state_attributes(self):
