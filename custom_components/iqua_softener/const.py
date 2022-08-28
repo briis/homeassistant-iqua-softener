@@ -1,6 +1,6 @@
 """Constant definitions for IQua Water Softener."""
 
-from enum import IntEnum
+from enum import Enum, IntEnum
 
 DOMAIN = "iqua_softener"
 
@@ -25,3 +25,10 @@ class IquaSoftenerVolumeUnit(IntEnum):
 
     GALLONS = 0
     LITERS = 1
+
+
+class IquaSoftenerState(str, Enum):
+    """IQua State Unit Definition."""
+
+    ONLINE = "Online"
+    OFFLINE = "Offline"

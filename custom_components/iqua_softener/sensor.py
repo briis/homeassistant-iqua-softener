@@ -16,8 +16,6 @@ from homeassistant.const import PERCENTAGE, VOLUME_LITERS, VOLUME_GALLONS
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.typing import StateType
 
-# from iqua_softener import IquaSoftenerVolumeUnit
-
 from .const import (
     DOMAIN,
     VOLUME_FLOW_RATE_LITERS_PER_MINUTE,
@@ -36,7 +34,7 @@ class IQuaSensorEntityDescription(SensorEntityDescription):
 SENSOR_TYPES = IQuaSensorEntityDescription = (
     IQuaSensorEntityDescription(
         key="state",
-        name="Online",
+        name="Status",
         icon="mdi:wifi",
         state_class=SensorStateClass.MEASUREMENT,
     ),
