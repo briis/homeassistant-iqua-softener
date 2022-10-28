@@ -74,6 +74,12 @@ SENSOR_TYPES = IQuaSensorEntityDescription = (
         icon="mdi:water-minus",
     ),
     IQuaSensorEntityDescription(
+        key="today_consumption",
+        name="Today water consumption",
+        state_class=SensorStateClass.TOTAL,
+        icon="mdi:water-minus",
+    ),
+    IQuaSensorEntityDescription(
         key="average_daily_use",
         name="Water usage daily average",
         state_class=SensorStateClass.MEASUREMENT,
@@ -152,6 +158,14 @@ class IQuaSensor(IQuaEntity, SensorEntity):
                 + timedelta(days=self.device_data.out_of_salt_estimated_days)
             ).replace(hour=0, minute=0, second=0)
 
+        if self.entity_description.key == "today_consumption":
+            # Use 0.0353146667 to convert to Cubic foot
+            return (
+                self.device_data.today_use * 0.001
+                if self.device_data.volume_unit == IquaSoftenerVolumeUnit.LITERS
+                else self.device_data.today_use * 0.0353146667
+            )
+
         return (
             getattr(self.coordinator.data, self.entity_description.key)
             if self.coordinator.data
@@ -180,6 +194,7 @@ class IQuaSensor(IQuaEntity, SensorEntity):
 
     @property
     def native_unit_of_measurement(self) -> str | None:
+        # m3 ft3
         if self.entity_description.key in [
             "today_use",
             "total_water_available",
@@ -196,6 +211,13 @@ class IQuaSensor(IQuaEntity, SensorEntity):
                 VOLUME_FLOW_RATE_LITERS_PER_MINUTE
                 if self.device_data.volume_unit == IquaSoftenerVolumeUnit.LITERS
                 else VOLUME_FLOW_RATE_GALLONS_PER_MINUTE
+            )
+
+        if self.entity_description.key in ["today_consumption"]:
+            return (
+                "m3"
+                if self.device_data.volume_unit == IquaSoftenerVolumeUnit.LITERS
+                else "ft3"
             )
 
         return super().native_unit_of_measurement
