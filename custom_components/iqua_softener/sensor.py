@@ -12,7 +12,13 @@ from homeassistant.components.sensor import (
     SensorStateClass,
 )
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import PERCENTAGE, VOLUME_LITERS, VOLUME_GALLONS
+from homeassistant.const import (
+    PERCENTAGE,
+    VOLUME_LITERS,
+    VOLUME_GALLONS,
+    VOLUME_CUBIC_FEET,
+    VOLUME_CUBIC_METERS,
+)
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.typing import StateType
 
@@ -58,6 +64,7 @@ SENSOR_TYPES = IQuaSensorEntityDescription = (
     IQuaSensorEntityDescription(
         key="total_water_available",
         name="Available water",
+        device_class=SensorDeviceClass.WATER,
         state_class=SensorStateClass.TOTAL,
         icon="mdi:water",
     ),
@@ -70,14 +77,15 @@ SENSOR_TYPES = IQuaSensorEntityDescription = (
     IQuaSensorEntityDescription(
         key="today_use",
         name="Today water usage",
+        device_class=SensorDeviceClass.WATER,
         state_class=SensorStateClass.TOTAL,
         icon="mdi:water-minus",
     ),
     IQuaSensorEntityDescription(
         key="today_consumption",
         name="Today water consumption",
-        state_class=SensorStateClass.TOTAL,
-        icon="mdi:water-minus",
+        device_class=SensorDeviceClass.WATER,
+        state_class=SensorStateClass.TOTAL_INCREASING,
     ),
     IQuaSensorEntityDescription(
         key="average_daily_use",
@@ -159,7 +167,6 @@ class IQuaSensor(IQuaEntity, SensorEntity):
             ).replace(hour=0, minute=0, second=0)
 
         if self.entity_description.key == "today_consumption":
-            # Use 0.0353146667 to convert to Cubic foot
             return (
                 self.device_data.today_use * 0.001
                 if self.device_data.volume_unit == IquaSoftenerVolumeUnit.LITERS
@@ -215,9 +222,9 @@ class IQuaSensor(IQuaEntity, SensorEntity):
 
         if self.entity_description.key in ["today_consumption"]:
             return (
-                "m3"
+                VOLUME_CUBIC_METERS
                 if self.device_data.volume_unit == IquaSoftenerVolumeUnit.LITERS
-                else "ft3"
+                else VOLUME_CUBIC_FEET
             )
 
         return super().native_unit_of_measurement
