@@ -78,7 +78,7 @@ SENSOR_TYPES = IQuaSensorEntityDescription = (
         key="today_use",
         name="Today water usage",
         device_class=SensorDeviceClass.WATER,
-        state_class=SensorStateClass.TOTAL,
+        state_class=SensorStateClass.TOTAL_INCREASING,
         icon="mdi:water-minus",
     ),
     IQuaSensorEntityDescription(
