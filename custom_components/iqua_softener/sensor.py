@@ -180,15 +180,15 @@ class IQuaSensor(IQuaEntity, SensorEntity):
     def icon(self):
         """Return icon for the sensor."""
         if self.entity_description.key == "salt_level_percent":
-            if self._attr_native_value is not None:
+            if self.device_data.salt_level_percent is not None:
                 level_icon = "mdi:signal-off"
-                if self._attr_native_value > 75:
+                if self.device_data.salt_level_percent > 75:
                     level_icon = "mdi:signal-cellular-3"
-                elif self._attr_native_value > 50:
+                elif self.device_data.salt_level_percent > 50:
                     level_icon = "mdi:signal-cellular-2"
-                elif self._attr_native_value > 25:
+                elif self.device_data.salt_level_percent > 25:
                     level_icon = "mdi:signal-cellular-1"
-                elif self._attr_native_value > 5:
+                elif self.device_data.salt_level_percent > 5:
                     level_icon = "mdi:signal-cellular-outline"
                 return level_icon
 
