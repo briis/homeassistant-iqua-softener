@@ -14,10 +14,7 @@ from homeassistant.components.sensor import (
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
     PERCENTAGE,
-    VOLUME_LITERS,
-    VOLUME_GALLONS,
-    VOLUME_CUBIC_FEET,
-    VOLUME_CUBIC_METERS,
+    UnitOfVolume,
 )
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.typing import StateType
@@ -208,9 +205,9 @@ class IQuaSensor(IQuaEntity, SensorEntity):
             "average_daily_use",
         ]:
             return (
-                VOLUME_LITERS
+                UnitOfVolume.LITERS
                 if self.device_data.volume_unit == IquaSoftenerVolumeUnit.LITERS
-                else VOLUME_GALLONS
+                else UnitOfVolume.GALLONS
             )
 
         if self.entity_description.key in ["current_water_flow"]:
@@ -222,9 +219,9 @@ class IQuaSensor(IQuaEntity, SensorEntity):
 
         if self.entity_description.key in ["today_consumption"]:
             return (
-                VOLUME_CUBIC_METERS
+                UnitOfVolume.CUBIC_METERS
                 if self.device_data.volume_unit == IquaSoftenerVolumeUnit.LITERS
-                else VOLUME_CUBIC_FEET
+                else UnitOfVolume.CUBIC_FEET
             )
 
         return super().native_unit_of_measurement
