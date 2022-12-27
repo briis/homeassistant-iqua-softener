@@ -238,4 +238,20 @@ class IQuaSensor(IQuaEntity, SensorEntity):
     @property
     def extra_state_attributes(self):
         """Return the sensor state attributes."""
+        if self.entity_description.key == "salt_level_percent":
+            if self.device_data.salt_level_percent is not None:
+                icon_color = "#9C27B0"
+                if self.device_data.salt_level_percent == 100:
+                    icon_color = "#4CAF50"
+                elif self.device_data.salt_level_percent == 80:
+                    icon_color = "#8BC34B"
+                elif self.device_data.salt_level_percent == 60:
+                    icon_color = "#FF9800"
+                elif self.device_data.salt_level_percent == 40:
+                    icon_color = "#F44336"
+                return {
+                    **super().extra_state_attributes,
+                    "icon_color": icon_color,
+                }
+
         return super().extra_state_attributes
