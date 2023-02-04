@@ -39,7 +39,6 @@ SENSOR_TYPES = IQuaSensorEntityDescription = (
         key="state",
         name="Status",
         icon="mdi:wifi",
-        state_class=SensorStateClass.MEASUREMENT,
     ),
     IQuaSensorEntityDescription(
         key="days_since_last_regeneration",
