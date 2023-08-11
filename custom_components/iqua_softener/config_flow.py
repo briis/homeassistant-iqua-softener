@@ -120,7 +120,8 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
                             CONF_INTERVAL_SENSORS, DEFAULT_INTERVAL_SENSORS
                         ),
                     ): vol.All(
-                        vol.Coerce(int), vol.Range(min=DEFAULT_INTERVAL_SENSORS, max=60)
+                        vol.Coerce(int),
+                        vol.Range(min=DEFAULT_INTERVAL_SENSORS, max=3600),
                     ),
                 }
             ),
